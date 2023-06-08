@@ -1,18 +1,69 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>com.github.dcsmf.intellijformatmethodsplugin</id>
-    <name>intellij-format-methods-plugin Template</name>
+    <name>FormatMethodPyramid</name>
     <vendor>dcsmf</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
 
-    <resource-bundle>messages.MyBundle</resource-bundle>
+    <description>
+        <![CDATA[
+        <dl>
+          <dt>这个插件可以将Java文件的方法排序，按方法签名的长度由短到长排序。</dt>
+          <dt> This plug-in can sort the methods of Java files, from short to long, according to the length of the method signature</dt>
+        </dl>
+        <p>你可以在code菜单里找到它</p>
+        <p>You can find it in the code menu</p>
+
+<!--        <p>格式化例子见下,For example:</p>-->
+
+<!--        <ul>-->
+<!--        <li>int i;</li>-->
+<!--        <li> @Resource</li>-->
+<!--        <li>Service service;</li>-->
+<!--        <li> boolean bool;</li>-->
+<!--        </ul>-->
+
+<!--        <p>After handle:</p>-->
+
+<!--        <ul>-->
+<!--        <li>int i;</li>-->
+<!--        <li> boolean bool;</li>-->
+<!--        <li>@Resource</li>-->
+<!--        <li>Service service;</li>-->
+<!--        </ul>-->
+        ]]>
+
+
+    </description>
+
+    <change-notes>
+        <![CDATA[
+        <ul>
+        <li>v0.0.1 Author dcsmf date 2023-06-08</li>
+        </ul>
+        more details
+        <a>https://github.com/dcsmf/intellij-format-methods-plugin</a>
+         ]]>
+    </change-notes>
+
+    <resource-bundle>i18n.text</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.dcsmf.intellijformatmethodsplugin.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
+        <toolWindow factoryClass="com.github.dcsmf.intellijformatmethodsplugin.toolWindow.MyToolWindowFactory"
+                    id="MyToolWindow"/>
     </extensions>
 
     <applicationListeners>
-        <listener class="com.github.dcsmf.intellijformatmethodsplugin.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
+        <listener class="com.github.dcsmf.intellijformatmethodsplugin.listeners.MyApplicationActivationListener"
+                  topic="com.intellij.openapi.application.ApplicationActivationListener"/>
     </applicationListeners>
+    <actions>
+        <action id="MfPlugins.Format.Pyramid.Method.Action"
+                class="com.github.dcsmf.intellijformatmethodsplugin.action.FormatMethodWithPyramidAction"
+                text="FormatMethodWithPyramid" description="Will format the code as a pyramid">
+            <add-to-group group-id="CodeFormatGroup" anchor="last"/>
+        </action>
+    </actions>
 </idea-plugin>
