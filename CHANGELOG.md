@@ -2,6 +2,6 @@
 
 # intellij-format-methods-plugin Changelog
 
-## [Unreleased]
+## [0.0.1]
 ### Added
-- Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
+- 函数排序功能完成(Methods sort feature finished)

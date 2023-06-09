@@ -1,35 +1,42 @@
 package com.github.dcsmf.intellijformatmethodsplugin.action
 
-import com.github.dcsmf.intellijformatmethodsplugin.I18nBundle
+import com.github.dcsmf.intellijformatmethodsplugin.model.InsertType
+import com.github.dcsmf.intellijformatmethodsplugin.model.selectSortModel
+import com.github.dcsmf.intellijformatmethodsplugin.utils.ElementUtil
+import com.github.dcsmf.intellijformatmethodsplugin.utils.I18nBundle
 import com.github.dcsmf.intellijformatmethodsplugin.utils.NotifyUtil
-import com.google.common.collect.Lists
+import com.github.dcsmf.intellijformatmethodsplugin.utils.SortUtil
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
-import com.intellij.openapi.diagnostic.thisLogger
+import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
-import com.intellij.psi.PsiClass
-import com.intellij.psi.PsiDocumentManager
-import com.intellij.psi.PsiJavaFile
+import com.intellij.psi.*
 import com.intellij.psi.impl.source.PsiExtensibleClass
-import org.apache.commons.lang.ArrayUtils
+import com.intellij.util.containers.stream
 import org.apache.commons.lang.StringUtils
 import java.util.*
-import kotlin.collections.ArrayList
 
 class FormatMethodWithPyramidAction : AnAction() {
+
+    override fun getActionUpdateThread(): ActionUpdateThread {
+        return ActionUpdateThread.EDT
+    }
+
     override fun update(e: AnActionEvent) {
-        //没有打开文件的时候禁用按钮
+        //没有打开文件的时候禁用按钮(Disable button when file isn't open)
         if (null == e.project) {
             e.presentation.isEnabled = false
         }
-        if (null ==e.getData(CommonDataKeys.EDITOR)) {
+        if (null == e.getData(CommonDataKeys.EDITOR)) {
             e.presentation.isEnabled = false
         }
         super.update(e)
     }
 
+    //格式化方法的按钮被按下(Button press)
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project ?: return
         val editor = e.getData(CommonDataKeys.EDITOR) ?: return
@@ -48,13 +55,13 @@ class FormatMethodWithPyramidAction : AnAction() {
         val selectionModel = editor.selectionModel
         try {
             if (StringUtils.isBlank(selectionModel.selectedText)) {
-                //全部格式化
-                formatAllClasses(project, editor)
+                //全部格式化(Sort all)
+                sortAllClasses(project, editor)
             } else {
-                //格式化选中的
+                //格式化选中的(Sort selections)
                 val start = selectionModel.selectionStart
                 val end = selectionModel.selectionEnd
-                formatAllClasses(project, editor, start, end)
+                sortAllClasses(project, editor, start, end)
             }
         } catch (ex: Exception) {
             ex.printStackTrace()
@@ -62,20 +69,62 @@ class FormatMethodWithPyramidAction : AnAction() {
         }
     }
 
-    private fun formatAllClasses(project: Project, editor: Editor) {
+    private fun sortAllClasses(project: Project, editor: Editor, start: Int = -1, end: Int = -1) {
         val allClassesList = getAllPsiClasses(project, editor)
-        when(allClassesList.stream().mapToInt { sortPsiClass(project, it) }.sum()){
-            0->NotifyUtil.showPopupBalloon(editor,I18nBundle.message("sorted"))
-            else->NotifyUtil.showPopupBalloon(editor,I18nBundle.message("sortComplete"))
+        when (allClassesList.stream().mapToInt { sortClassBySignature(project, it, start, end) }.sum()) {
+            0 -> NotifyUtil.showPopupBalloon(editor, I18nBundle.message("sorted"))
+            else -> NotifyUtil.showPopupBalloon(editor, I18nBundle.message("sortComplete"))
         }
     }
 
-    private fun formatAllClasses(project: Project, editor: Editor, start: Int, end: Int) {
+    private fun sortClassBySignature(project: Project, currentPsiClass: PsiClass, start: Int = -1, end: Int = -1): Int {
+        var methods = currentPsiClass.methods
+        if (methods.isEmpty()) {
+            return 0
+        }
+        var sortModel: selectSortModel? = null
+        if (start != -1 || end != -1) {
+            sortModel = SortUtil.getSelectSortModel(currentPsiClass, start, end, methods.toList())
+            methods = methods.filter { it.textRange.endOffset in start..end }.toTypedArray()
+        }
+        val sorted = methods.stream().sorted { o1, o2 ->
+            o1.getSignature(PsiSubstitutor.EMPTY).toString().length.compareTo(
+                o2.getSignature(PsiSubstitutor.EMPTY).toString().length
+            )
 
-    }
+        }.toList()
+        if (SortUtil.isSameAfterSort(methods, sorted)) {
+            return 0
+        }
+        val copySorted: List<PsiElement> = sorted.stream().map(PsiMethod::copy).toList()
+        WriteCommandAction.runWriteCommandAction(project) {
+            methods.forEach { ElementUtil.deleteElement(it) }
+            if (sortModel == null || sortModel.insertType == InsertType.ADD) {
+                copySorted.forEach { ElementUtil.addElement(currentPsiClass, it) }
+            } else {
+                when (sortModel.insertType) {
+                    InsertType.ADD_AFTER -> {
+                        // 如果是往后追加，则倒序追加
+                        for (index in copySorted.size - 1 downTo 0) {
+                            ElementUtil.addAfterElement(currentPsiClass, copySorted[index], sortModel.locationElement!!)
+                        }
+                    }
 
-    private fun sortPsiClass(project: Project, currentPsiClass: PsiClass):Int {
-        return 0
+                    else -> {
+                        // 往前追加，则正序
+                        copySorted.forEach {
+                            ElementUtil.addBeforeElement(
+                                currentPsiClass,
+                                it,
+                                sortModel.locationElement!!
+                            )
+                        }
+                    }
+                }
+            }
+
+        }
+        return 1
     }
 
     private fun getAllPsiClasses(project: Project, editor: Editor): ArrayList<PsiClass> {

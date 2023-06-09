@@ -1,6 +1,5 @@
 package com.github.dcsmf.intellijformatmethodsplugin.utils
 
-import com.github.dcsmf.intellijformatmethodsplugin.I18nBundle
 import com.intellij.notification.Notification
 import com.intellij.notification.NotificationType
 import com.intellij.notification.Notifications
@@ -12,45 +11,49 @@ import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.ui.JBColor
 import java.awt.Color
 
-class NotifyUtil {
-    companion object {
-        fun notifyInfo(anAction: Any, project: Project, content: String) {
-            val notification = Notification(
-                anAction.hashCode().toString(), I18nBundle.message("name"),
-                content, NotificationType.INFORMATION
-            )
-            Notifications.Bus.notify(notification, project)
-        }
+@Suppress("unused")
+object NotifyUtil {
 
-        fun notifyWarn(anAction: Any, project: Project?, content: String) {
-            val notification = Notification(
-                anAction.hashCode().toString(), I18nBundle.message("name"),
-                content, NotificationType.WARNING
-            )
-            Notifications.Bus.notify(notification, project)
-        }
+    @JvmStatic
+    fun notifyInfo(anAction: Any, project: Project, content: String) {
+        val notification = Notification(
+            anAction.hashCode().toString(), I18nBundle.message("name"),
+            content, NotificationType.INFORMATION
+        )
+        Notifications.Bus.notify(notification, project)
+    }
 
-        fun notifyError(anAction: Any, project: Project, content: String) {
-            val notification = Notification(
-                anAction.hashCode().toString(), I18nBundle.message("name"),
-                content, NotificationType.ERROR
-            )
-            Notifications.Bus.notify(notification, project)
-        }
+    @JvmStatic
+    fun notifyWarn(anAction: Any, project: Project?, content: String) {
+        val notification = Notification(
+            anAction.hashCode().toString(), I18nBundle.message("name"),
+            content, NotificationType.WARNING
+        )
+        Notifications.Bus.notify(notification, project)
+    }
 
-        fun showPopupBalloon(editor: Editor, result: String) {
-            ApplicationManager.getApplication().invokeLater {
-                val factory = JBPopupFactory.getInstance()
-                factory.createHtmlTextBalloonBuilder(
-                    result,
-                    null,
-                    JBColor(Color(186, 238, 186), Color(73, 117, 73)),
-                    null
-                )
-                    .setFadeoutTime(3000)
-                    .createBalloon()
-                    .show(factory.guessBestPopupLocation(editor), Balloon.Position.below)
-            }
+    @JvmStatic
+    fun notifyError(anAction: Any, project: Project, content: String) {
+        val notification = Notification(
+            anAction.hashCode().toString(), I18nBundle.message("name"),
+            content, NotificationType.ERROR
+        )
+        Notifications.Bus.notify(notification, project)
+    }
+
+    @JvmStatic
+    fun showPopupBalloon(editor: Editor, result: String) {
+        ApplicationManager.getApplication().invokeLater {
+            val factory = JBPopupFactory.getInstance()
+            factory.createHtmlTextBalloonBuilder(
+                result,
+                null,
+                JBColor(Color(186, 238, 186), Color(73, 117, 73)),
+                null
+            )
+                .setFadeoutTime(3000)
+                .createBalloon()
+                .show(factory.guessBestPopupLocation(editor), Balloon.Position.below)
         }
     }
 }

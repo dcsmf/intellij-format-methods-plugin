@@ -1,4 +1,4 @@
-package com.github.dcsmf.intellijformatmethodsplugin
+package com.github.dcsmf.intellijformatmethodsplugin.utils
 
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.NonNls
