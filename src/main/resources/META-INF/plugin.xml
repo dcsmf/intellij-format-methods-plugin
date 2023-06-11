@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>com.github.dcsmf.intellij-format-methods-plugin</id>
     <name>FormatMethodPyramid</name>
-    <vendor>dcsmf</vendor>
+    <vendor url="https://github.com/dcsmf">dcsmf</vendor>
 
     <description><![CDATA[
         <p>这个插件可以将Java文件的方法排序，按方法签名的长度由短到长排序(This plug-in can sort the methods of Java files, from short to long, according to the length of the method signature)</p>
