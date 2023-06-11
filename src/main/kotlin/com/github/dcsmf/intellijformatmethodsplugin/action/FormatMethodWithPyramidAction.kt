@@ -1,7 +1,7 @@
 package com.github.dcsmf.intellijformatmethodsplugin.action
 
 import com.github.dcsmf.intellijformatmethodsplugin.model.InsertType
-import com.github.dcsmf.intellijformatmethodsplugin.model.selectSortModel
+import com.github.dcsmf.intellijformatmethodsplugin.model.SelectSortModel
 import com.github.dcsmf.intellijformatmethodsplugin.utils.ElementUtil
 import com.github.dcsmf.intellijformatmethodsplugin.utils.I18nBundle
 import com.github.dcsmf.intellijformatmethodsplugin.utils.NotifyUtil
@@ -82,7 +82,7 @@ class FormatMethodWithPyramidAction : AnAction() {
         if (methods.isEmpty()) {
             return 0
         }
-        var sortModel: selectSortModel? = null
+        var sortModel: SelectSortModel? = null
         if (start != -1 || end != -1) {
             sortModel = SortUtil.getSelectSortModel(currentPsiClass, start, end, methods.toList())
             methods = methods.filter { it.textRange.endOffset in start..end }.toTypedArray()

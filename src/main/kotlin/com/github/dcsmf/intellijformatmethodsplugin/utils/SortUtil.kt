@@ -1,7 +1,7 @@
 package com.github.dcsmf.intellijformatmethodsplugin.utils
 
 import com.github.dcsmf.intellijformatmethodsplugin.model.InsertType
-import com.github.dcsmf.intellijformatmethodsplugin.model.selectSortModel
+import com.github.dcsmf.intellijformatmethodsplugin.model.SelectSortModel
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.impl.source.PsiExtensibleClass
@@ -24,8 +24,8 @@ object SortUtil {
         start: Int,
         end: Int,
         methodsList: List<PsiMethod>
-    ): selectSortModel {
-        val sortModel: selectSortModel
+    ): SelectSortModel {
+        val sortModel: SelectSortModel
         var location: PsiMethod? = null
         //从头往后找
         var min: Int = Int.MAX_VALUE
@@ -50,23 +50,23 @@ object SortUtil {
                 val methods = currentClass.allMethods
 
                 if (ArrayUtils.isEmpty(methods)) {
-                    sortModel = selectSortModel(start, end, InsertType.ADD, null)
+                    sortModel = SelectSortModel(start, end, InsertType.ADD, null)
                 } else {
                     var psiMethods = methods.toList()
                     if (currentClass is PsiExtensibleClass) {
                         psiMethods = currentClass.ownMethods
                     }
                     sortModel = if (psiMethods.isNotEmpty()) {
-                        selectSortModel(start, end, InsertType.ADD_BEFORE, psiMethods[0])
+                        SelectSortModel(start, end, InsertType.ADD_BEFORE, psiMethods[0])
                     } else {
-                        selectSortModel(start, end, InsertType.ADD, null)
+                        SelectSortModel(start, end, InsertType.ADD, null)
                     }
                 }
             } else {
-                sortModel = selectSortModel(start, end, InsertType.ADD_BEFORE, location)
+                sortModel = SelectSortModel(start, end, InsertType.ADD_BEFORE, location)
             }
         } else {
-            sortModel = selectSortModel(start, end, InsertType.ADD_AFTER, location)
+            sortModel = SelectSortModel(start, end, InsertType.ADD_AFTER, location)
         }
         return sortModel
     }
