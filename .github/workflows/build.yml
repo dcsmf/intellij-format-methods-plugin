@@ -111,6 +111,10 @@ jobs:
 #      - name: Qodana - Code Inspection
 #        uses: JetBrains/qodana-action@v2023.1.0
 
+      # Build Plugin for next step: Prepare Plugin Artifact
+      - name: Build Plugin
+        run: ./gradlew buildPlugin
+
       # Prepare plugin archive content for creating artifact
       - name: Prepare Plugin Artifact
         id: artifact
