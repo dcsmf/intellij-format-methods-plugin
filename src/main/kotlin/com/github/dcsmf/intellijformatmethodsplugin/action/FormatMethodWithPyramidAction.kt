@@ -6,7 +6,6 @@ import com.github.dcsmf.intellijformatmethodsplugin.utils.ElementUtil
 import com.github.dcsmf.intellijformatmethodsplugin.utils.I18nBundle
 import com.github.dcsmf.intellijformatmethodsplugin.utils.NotifyUtil
 import com.github.dcsmf.intellijformatmethodsplugin.utils.SortUtil
-import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
@@ -18,12 +17,9 @@ import com.intellij.psi.impl.source.PsiExtensibleClass
 import com.intellij.util.containers.stream
 import org.apache.commons.lang.StringUtils
 import java.util.*
+import java.util.stream.Collectors
 
 class FormatMethodWithPyramidAction : AnAction() {
-
-    override fun getActionUpdateThread(): ActionUpdateThread {
-        return ActionUpdateThread.EDT
-    }
 
     override fun update(e: AnActionEvent) {
         //没有打开文件的时候禁用按钮(Disable button when file isn't open)
@@ -87,16 +83,15 @@ class FormatMethodWithPyramidAction : AnAction() {
             sortModel = SortUtil.getSelectSortModel(currentPsiClass, start, end, methods.toList())
             methods = methods.filter { it.textRange.endOffset in start..end }.toTypedArray()
         }
-        val sorted = methods.stream().sorted { o1, o2 ->
+        val sortedMethods = methods.stream().sorted { o1, o2 ->
             o1.getSignature(PsiSubstitutor.EMPTY).toString().length.compareTo(
                 o2.getSignature(PsiSubstitutor.EMPTY).toString().length
             )
-
-        }.toList()
-        if (SortUtil.isSameAfterSort(methods, sorted)) {
+        }.collect(Collectors.toList())
+        if (SortUtil.isSameAfterSort(methods, sortedMethods)) {
             return 0
         }
-        val copySorted: List<PsiElement> = sorted.stream().map(PsiMethod::copy).toList()
+        val copySorted: List<PsiElement> = sortedMethods.map(PsiMethod::copy)
         WriteCommandAction.runWriteCommandAction(project) {
             methods.forEach { ElementUtil.deleteElement(it) }
             if (sortModel == null || sortModel.insertType == InsertType.ADD) {
