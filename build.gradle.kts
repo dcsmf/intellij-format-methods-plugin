@@ -1,7 +1,11 @@
 import org.jetbrains.changelog.Changelog
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 fun properties(key: String) = providers.gradleProperty(key)
 fun environment(key: String) = providers.environmentVariable(key)
+fun dateValue(pattern: String) = LocalDate.now(ZoneId.of("Asia/Shanghai")).format(DateTimeFormatter.ofPattern(pattern))
 
 plugins {
     id("java") // Java support
@@ -36,6 +40,7 @@ intellij {
 
 // Configure Gradle Changelog Plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
 changelog {
+    header.set(provider { "${version.get()} (${dateValue("yyyy/MM/dd")})" })
     groups.empty()
     repositoryUrl = properties("pluginRepositoryUrl")
 }
@@ -57,21 +62,7 @@ tasks {
         version = properties("pluginVersion")
         sinceBuild = properties("pluginSinceBuild")
         untilBuild = properties("pluginUntilBuild")
-
-        // 注释是因为中文会乱码(Comment this because of the Chinese characters were garbled)
-        // Extract the <!-- Plugin description --> section from README.md and provide for the plugin's manifest
-//        pluginDescription = providers.fileContents(layout.projectDirectory.file("README.md")).asText
-//            .map { String(it.toByteArray(), Charsets.UTF_8) }
-//            .map {
-//                val start = "<!-- Plugin description -->"
-//                val end = "<!-- Plugin description end -->"
-//                with(it.lines()) {
-//                    if (!containsAll(listOf(start, end))) {
-//                        throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
-//                    }
-//                    subList(indexOf(start) + 1, indexOf(end)).joinToString("\n").let(::markdownToHTML)
-//                }
-//            }
+        pluginDescription.set(projectDir.resolve("DESCRIPTION.md").readText())
 
         val changelog = project.changelog // local variable for configuration cache compatibility
         // Get the latest available change notes from the changelog file

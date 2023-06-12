@@ -5,10 +5,9 @@
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
 
 ## Introduction
-<!-- Plugin description -->
 这个插件可以将Java文件的方法排序，按方法签名的长度由短到长排序(This plug-in can sort the methods of Java files, from short to long, according to the length of the method signature)
 
-通过 <kbd>代码</kbd> > <kbd>FormatMethodPyramid</kbd> 使用本插件(To use it, select <kbd>Code</kbd> > <kbd>FormatMethodPyramid</kbd> )
+通过 <kbd>代码</kbd> > <kbd>FormatMethodPyramid</kbd> 使用本插件(To use it, select <kbd>Code > <kbd>FormatMethodPyramid</kbd> )
 
 格式化例子见下(For example):
 
@@ -39,7 +38,6 @@ public interface Demo {
     void two(String str, int i, double d);
 }
 ```
-<!-- Plugin description end -->
 
 ## Template ToDo list
 - [x] Create a new [IntelliJ Platform Plugin Template][template] project.
