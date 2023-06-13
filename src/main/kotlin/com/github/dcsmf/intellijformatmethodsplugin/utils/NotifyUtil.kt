@@ -1,5 +1,6 @@
 package com.github.dcsmf.intellijformatmethodsplugin.utils
 
+import com.github.dcsmf.intellijformatmethodsplugin.bundle.TextBundle
 import com.intellij.notification.Notification
 import com.intellij.notification.NotificationType
 import com.intellij.notification.Notifications
@@ -17,7 +18,7 @@ object NotifyUtil {
     @JvmStatic
     fun notifyInfo(anAction: Any, project: Project, content: String) {
         val notification = Notification(
-            anAction.hashCode().toString(), I18nBundle.message("name"),
+            anAction.hashCode().toString(), TextBundle.message("name"),
             content, NotificationType.INFORMATION
         )
         Notifications.Bus.notify(notification, project)
@@ -26,7 +27,7 @@ object NotifyUtil {
     @JvmStatic
     fun notifyWarn(anAction: Any, project: Project?, content: String) {
         val notification = Notification(
-            anAction.hashCode().toString(), I18nBundle.message("name"),
+            anAction.hashCode().toString(), TextBundle.message("name"),
             content, NotificationType.WARNING
         )
         Notifications.Bus.notify(notification, project)
@@ -35,7 +36,7 @@ object NotifyUtil {
     @JvmStatic
     fun notifyError(anAction: Any, project: Project, content: String) {
         val notification = Notification(
-            anAction.hashCode().toString(), I18nBundle.message("name"),
+            anAction.hashCode().toString(), TextBundle.message("name"),
             content, NotificationType.ERROR
         )
         Notifications.Bus.notify(notification, project)

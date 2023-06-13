@@ -1,13 +1,13 @@
-package com.github.dcsmf.intellijformatmethodsplugin.utils
+package com.github.dcsmf.intellijformatmethodsplugin.bundle
 
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.NonNls
 import org.jetbrains.annotations.PropertyKey
 
 @NonNls
-private const val BUNDLE = "i18n.text"
+private const val BUNDLE = "messages.TextBundle"
 
-object I18nBundle : DynamicBundle(BUNDLE) {
+object TextBundle : DynamicBundle(BUNDLE) {
 
     @Suppress("SpreadOperator")
     @JvmStatic

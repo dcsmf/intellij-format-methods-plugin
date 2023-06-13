@@ -1,9 +1,9 @@
 package com.github.dcsmf.intellijformatmethodsplugin.action
 
+import com.github.dcsmf.intellijformatmethodsplugin.bundle.TextBundle
 import com.github.dcsmf.intellijformatmethodsplugin.model.InsertType
 import com.github.dcsmf.intellijformatmethodsplugin.model.SelectSortModel
 import com.github.dcsmf.intellijformatmethodsplugin.utils.ElementUtil
-import com.github.dcsmf.intellijformatmethodsplugin.utils.I18nBundle
 import com.github.dcsmf.intellijformatmethodsplugin.utils.NotifyUtil
 import com.github.dcsmf.intellijformatmethodsplugin.utils.SortUtil
 import com.intellij.openapi.actionSystem.AnAction
@@ -39,12 +39,12 @@ class FormatMethodWithPyramidAction : AnAction() {
 
         when (PsiDocumentManager.getInstance(project).getPsiFile(editor.document)) {
             null -> {
-                NotifyUtil.notifyWarn(e, project, I18nBundle.message("emptyFile"))
+                NotifyUtil.notifyWarn(e, project, TextBundle.message("emptyFile"))
                 return
             }
 
             !is PsiJavaFile -> {
-                NotifyUtil.notifyWarn(e, project, I18nBundle.message("notJavaFile"))
+                NotifyUtil.notifyWarn(e, project, TextBundle.message("notJavaFile"))
                 return
             }
         }
@@ -61,15 +61,15 @@ class FormatMethodWithPyramidAction : AnAction() {
             }
         } catch (ex: Exception) {
             ex.printStackTrace()
-            NotifyUtil.notifyError(e, project, I18nBundle.message("exception") + ex)
+            NotifyUtil.notifyError(e, project, TextBundle.message("exception") + ex)
         }
     }
 
     private fun sortAllClasses(project: Project, editor: Editor, start: Int = -1, end: Int = -1) {
         val allClassesList = getAllPsiClasses(project, editor)
         when (allClassesList.stream().mapToInt { sortClassBySignature(project, it, start, end) }.sum()) {
-            0 -> NotifyUtil.showPopupBalloon(editor, I18nBundle.message("sorted"))
-            else -> NotifyUtil.showPopupBalloon(editor, I18nBundle.message("sortComplete"))
+            0 -> NotifyUtil.showPopupBalloon(editor, TextBundle.message("sorted"))
+            else -> NotifyUtil.showPopupBalloon(editor, TextBundle.message("sortComplete"))
         }
     }
 

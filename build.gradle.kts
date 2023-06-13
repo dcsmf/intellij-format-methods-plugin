@@ -20,6 +20,8 @@ version = properties("pluginVersion").get()
 
 // Configure project's dependencies
 repositories {
+    mavenLocal()
+    maven(url = "https://maven.aliyun.com/repository/public")
     mavenCentral()
 }
 
@@ -70,6 +72,7 @@ tasks {
             with(changelog) {
                 renderItem(
                     (getOrNull(pluginVersion) ?: getUnreleased())
+                        .withLinks(false)
                         .withHeader(false)
                         .withEmptySections(false),
                     Changelog.OutputType.HTML,

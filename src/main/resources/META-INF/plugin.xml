@@ -7,17 +7,16 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.java</depends>
 
-    <resource-bundle>i18n.text</resource-bundle>
+    <resource-bundle>messages.TextBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
     </extensions>
 
     <applicationListeners>
     </applicationListeners>
-    <actions>
-        <action id="MfPlugins.Format.Pyramid.Method.Action"
-                class="com.github.dcsmf.intellijformatmethodsplugin.action.FormatMethodWithPyramidAction"
-                text="FormatMethodWithPyramid" description="Will format the code as a pyramid">
+    <actions resource-bundle="messages.ActionsBundle">
+        <action id="mf.plugin.format.pyramid.method.action"
+                class="com.github.dcsmf.intellijformatmethodsplugin.action.FormatMethodWithPyramidAction">
             <add-to-group group-id="CodeFormatGroup" anchor="last"/>
         </action>
     </actions>
