@@ -4,6 +4,7 @@ import com.github.dcsmf.intellijformatmethodsplugin.bundle.TextBundle
 import com.github.dcsmf.intellijformatmethodsplugin.model.InsertType
 import com.github.dcsmf.intellijformatmethodsplugin.model.SelectSortModel
 import com.github.dcsmf.intellijformatmethodsplugin.utils.ElementUtil
+import com.github.dcsmf.intellijformatmethodsplugin.utils.MethodUtil.getJvmStyleSignature
 import com.github.dcsmf.intellijformatmethodsplugin.utils.NotifyUtil
 import com.github.dcsmf.intellijformatmethodsplugin.utils.SortUtil
 import com.intellij.openapi.actionSystem.AnAction
@@ -78,15 +79,21 @@ class FormatMethodWithPyramidAction : AnAction() {
         if (methods.isEmpty()) {
             return 0
         }
+
         var sortModel: SelectSortModel? = null
         if (start != -1 || end != -1) {
             sortModel = SortUtil.getSelectSortModel(currentPsiClass, start, end, methods.toList())
             methods = methods.filter { it.textRange.endOffset in start..end }.toTypedArray()
         }
         val sortedMethods = methods.stream().sorted { o1, o2 ->
-            o1.getSignature(PsiSubstitutor.EMPTY).toString().length.compareTo(
-                o2.getSignature(PsiSubstitutor.EMPTY).toString().length
-            )
+            if (o1.isConstructor) {
+                return@sorted 1
+            }
+            val s1 = getJvmStyleSignature(o1)
+            val s2 = getJvmStyleSignature(o2)
+
+//            s1.length.compareTo(s2.length)
+            1
         }.collect(Collectors.toList())
         if (SortUtil.isSameAfterSort(methods, sortedMethods)) {
             return 0
