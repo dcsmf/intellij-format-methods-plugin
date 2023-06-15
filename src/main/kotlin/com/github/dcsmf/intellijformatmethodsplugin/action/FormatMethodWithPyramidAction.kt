@@ -91,9 +91,7 @@ class FormatMethodWithPyramidAction : AnAction() {
             }
             val s1 = getJvmStyleSignature(o1)
             val s2 = getJvmStyleSignature(o2)
-
-//            s1.length.compareTo(s2.length)
-            1
+            s1.length.compareTo(s2.length)
         }.collect(Collectors.toList())
         if (SortUtil.isSameAfterSort(methods, sortedMethods)) {
             return 0

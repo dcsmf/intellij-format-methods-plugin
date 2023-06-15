@@ -4,6 +4,9 @@
 
 ## [Unreleased]
 
+## [1.0.3] (2023/06/15)
+- 修复函数排序不对的问题(Fix method sorting errors)
+
 ## [1.0.2] (2023/06/12)
 - 版本号更规范(The version number is more prescriptive)
 - 现在编译的语言版本由17改为11(Now change JVM language level from 17 to 11)
