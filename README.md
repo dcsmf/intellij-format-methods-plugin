@@ -5,11 +5,11 @@
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
 
 ## Introduction
-这个插件可以将Java文件的方法排序，按方法签名的长度由短到长排序(This plug-in can sort the methods of Java files, from short to long, according to the length of the method signature)
+This plug-in can sort the methods of Java files, from short to long, according to the length of the method signature
 
-通过 <kbd>代码</kbd> > <kbd>FormatMethodPyramid</kbd> 使用本插件(To use it, select <kbd>Code > <kbd>FormatMethodPyramid</kbd> )
+To use it, select <kbd>Code</kbd> > <kbd>FormatMethodPyramid</kbd>
 
-格式化例子见下(For example):
+For example:
 
 ```java
 public interface Demo {
@@ -24,7 +24,7 @@ public interface Demo {
 }
 ```
 
-格式化后(After handle):
+After handle:
 
 ```java
 public interface Demo {
@@ -53,12 +53,12 @@ public interface Demo {
 
 ## Installation
 
-- 使用idea内置的插件市场(Using IDE built-in plugin system):
+- Using IDE built-in plugin system:
 
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "intellij-format-methods-plugin"</kbd> >
   <kbd>Install Plugin</kbd>
 
-- 手动安装(Manually):
+- Manually:
 
   Download the [latest release](https://github.com/dcsmf/intellij-format-methods-plugin/releases/latest) and install it manually using
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
