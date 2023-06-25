@@ -10,6 +10,7 @@ import com.github.dcsmf.intellijformatmethodsplugin.utils.SortUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
@@ -23,6 +24,9 @@ import java.util.stream.Collectors
 class FormatMethodWithPyramidAction : AnAction() {
 
     override fun update(e: AnActionEvent) {
+        if(ApplicationManager.getApplication().isDisposed){
+            return
+        }
         //没有打开文件的时候禁用按钮(Disable button when file isn't open)
         if (null == e.project) {
             e.presentation.isEnabled = false

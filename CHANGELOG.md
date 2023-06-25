@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [1.0.4] (2023/06/25)
+- Resolve the `com.intellij.serviceContainer.AlreadyDisposedException` caused
+- 解决引发的`com.intellij.serviceContainer.AlreadyDisposedException`
+
 ## [1.0.3] (2023/06/15)
 - Fix method sorting errors
 - 修复函数排序不对的问题

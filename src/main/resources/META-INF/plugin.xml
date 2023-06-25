@@ -9,11 +9,6 @@
 
     <resource-bundle>messages.TextBundle</resource-bundle>
 
-    <extensions defaultExtensionNs="com.intellij">
-    </extensions>
-
-    <applicationListeners>
-    </applicationListeners>
     <actions resource-bundle="messages.ActionsBundle">
         <action id="mf.plugin.format.pyramid.method.action"
                 class="com.github.dcsmf.intellijformatmethodsplugin.action.FormatMethodWithPyramidAction">
