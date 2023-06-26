@@ -2,7 +2,11 @@
 
 # intellij-format-methods-plugin Changelog
 
-## [Unreleased]
+## [1.0.5] (2023/06/25)
+- Clean up some excess code
+- Resolve the `com.intellij.serviceContainer.AlreadyDisposedException` caused
+- 清理部分多余代码
+- 解决引发的`com.intellij.serviceContainer.AlreadyDisposedException`
 
 ## [1.0.3] (2023/06/15)
 - Fix method sorting errors
