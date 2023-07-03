@@ -10,7 +10,6 @@ import com.github.dcsmf.intellijformatmethodsplugin.utils.SortUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
-import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
@@ -24,10 +23,8 @@ import java.util.stream.Collectors
 class FormatMethodWithPyramidAction : AnAction() {
 
     override fun update(e: AnActionEvent) {
-        if(ApplicationManager.getApplication().isDisposed){
-            return
-        }
-        //没有打开文件的时候禁用按钮(Disable button when file isn't open)
+        // 没有打开编辑器的时候禁用按钮
+        // Disable button when editor isn't open
         if (null == e.project) {
             e.presentation.isEnabled = false
         }
@@ -37,11 +34,14 @@ class FormatMethodWithPyramidAction : AnAction() {
         super.update(e)
     }
 
-    //格式化方法的按钮被按下(Button press)
+    // 格式化方法的按钮被按下
+    // The button is pressed
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project ?: return
         val editor = e.getData(CommonDataKeys.EDITOR) ?: return
 
+        // 判断打开的文件是否符合规则
+        // Check whether the opened file complies with the rules
         when (PsiDocumentManager.getInstance(project).getPsiFile(editor.document)) {
             null -> {
                 NotifyUtil.notifyWarn(e, project, TextBundle.message("emptyFile"))
@@ -53,13 +53,18 @@ class FormatMethodWithPyramidAction : AnAction() {
                 return
             }
         }
+
+        // 查看用户是否选中了部分区域
+        // Check whether some areas are selected
         val selectionModel = editor.selectionModel
         try {
             if (StringUtils.isBlank(selectionModel.selectedText)) {
-                //全部格式化(Sort all)
+                // 全部格式化
+                // Sort all
                 sortAllClasses(project, editor)
             } else {
-                //格式化选中的(Sort selections)
+                // 格式化选中的
+                // Sort selections
                 val start = selectionModel.selectionStart
                 val end = selectionModel.selectionEnd
                 sortAllClasses(project, editor, start, end)
@@ -85,10 +90,13 @@ class FormatMethodWithPyramidAction : AnAction() {
         }
 
         var sortModel: SelectSortModel? = null
+        // 过滤用户选中的方法
+        // Filter the method selected by the user
         if (start != -1 || end != -1) {
             sortModel = SortUtil.getSelectSortModel(currentPsiClass, start, end, methods.toList())
             methods = methods.filter { it.textRange.endOffset in start..end }.toTypedArray()
         }
+
         val sortedMethods = methods.stream().sorted { o1, o2 ->
             if (o1.isConstructor) {
                 return@sorted 1
@@ -100,33 +108,40 @@ class FormatMethodWithPyramidAction : AnAction() {
         if (SortUtil.isSameAfterSort(methods, sortedMethods)) {
             return 0
         }
+
+        // 需要复制一份，不能直接对原数组进行更改
+        // Need to make a copy of the original array, and cannot directly change the original array
         val copySorted: List<PsiElement> = sortedMethods.map(PsiMethod::copy)
         WriteCommandAction.runWriteCommandAction(project) {
             methods.forEach { ElementUtil.deleteElement(it) }
-            if (sortModel == null || sortModel.insertType == InsertType.ADD) {
-                copySorted.forEach { ElementUtil.addElement(currentPsiClass, it) }
-            } else {
-                when (sortModel.insertType) {
-                    InsertType.ADD_AFTER -> {
-                        // 如果是往后追加，则倒序追加
-                        for (index in copySorted.size - 1 downTo 0) {
-                            ElementUtil.addAfterElement(currentPsiClass, copySorted[index], sortModel.locationElement!!)
-                        }
-                    }
+            when {
+                (sortModel == null) || (sortModel.insertType == InsertType.ADD) -> copySorted.forEach {
+                    ElementUtil.addElement(
+                        currentPsiClass,
+                        it
+                    )
+                }
 
-                    else -> {
-                        // 往前追加，则正序
-                        copySorted.forEach {
-                            ElementUtil.addBeforeElement(
-                                currentPsiClass,
-                                it,
-                                sortModel.locationElement!!
-                            )
-                        }
+                sortModel.insertType == InsertType.ADD_AFTER -> {
+                    // 如果是往后追加，则倒序追加
+                    // If adding backwards, append in reverse order
+                    for (index in copySorted.size - 1 downTo 0) {
+                        ElementUtil.addAfterElement(currentPsiClass, copySorted[index], sortModel.locationElement!!)
+                    }
+                }
+
+                sortModel.insertType == InsertType.ADD_BEFORE -> {
+                    // 往前追加，则正序
+                    // Append forward, then positive sequence
+                    copySorted.forEach {
+                        ElementUtil.addBeforeElement(
+                            currentPsiClass,
+                            it,
+                            sortModel.locationElement!!
+                        )
                     }
                 }
             }
-
         }
         return 1
     }

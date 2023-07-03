@@ -18,6 +18,10 @@ object SortUtil {
         return true
     }
 
+    /**
+     * 寻找应在哪插入方法
+     * Find where to insert the method
+     */
     @JvmStatic
     fun getSelectSortModel(
         currentClass: PsiClass,
@@ -25,9 +29,10 @@ object SortUtil {
         end: Int,
         methodsList: List<PsiMethod>
     ): SelectSortModel {
-        val sortModel: SelectSortModel
         var location: PsiMethod? = null
-        //从头往后找
+
+        // 从前往后查找
+        // Look from front to back
         var min: Int = Int.MAX_VALUE
         for (psiMethod in methodsList) {
             val temp = start - psiMethod.textRange.endOffset
@@ -36,38 +41,35 @@ object SortUtil {
                 min = temp
             }
         }
-        //没找到就从后往前
-        if (location == null) {
-            min = Int.MAX_VALUE
-            for (psiMethod in methodsList) {
-                val temp = psiMethod.textRange.startOffset - end
-                if (temp in 1 until min) {
-                    location = psiMethod
-                    min = temp
-                }
-            }
-            if (location == null) {
-                val methods = currentClass.allMethods
+        location?.let { return SelectSortModel(start, end, InsertType.ADD_AFTER, location) }
 
-                if (ArrayUtils.isEmpty(methods)) {
-                    sortModel = SelectSortModel(start, end, InsertType.ADD, null)
-                } else {
-                    var psiMethods = methods.toList()
-                    if (currentClass is PsiExtensibleClass) {
-                        psiMethods = currentClass.ownMethods
-                    }
-                    sortModel = if (psiMethods.isNotEmpty()) {
-                        SelectSortModel(start, end, InsertType.ADD_BEFORE, psiMethods[0])
-                    } else {
-                        SelectSortModel(start, end, InsertType.ADD, null)
-                    }
-                }
-            } else {
-                sortModel = SelectSortModel(start, end, InsertType.ADD_BEFORE, location)
+        // 没找到就从后往前找
+        // If not found, Look from back to front
+        min = Int.MAX_VALUE
+        for (psiMethod in methodsList) {
+            val temp = psiMethod.textRange.startOffset - end
+            if (temp in 1 until min) {
+                location = psiMethod
+                min = temp
             }
-        } else {
-            sortModel = SelectSortModel(start, end, InsertType.ADD_AFTER, location)
         }
-        return sortModel
+        location?.let { return SelectSortModel(start, end, InsertType.ADD_BEFORE, location) }
+
+        // 还是没找到，范围扩充到查找该类所有方法
+        // Still not found, the scope expands to find all methods of the class
+        val methods = currentClass.allMethods
+        return if (ArrayUtils.isEmpty(methods)) {
+            SelectSortModel(start, end, InsertType.ADD, null)
+        } else {
+            var psiMethods = methods.toList()
+            if (currentClass is PsiExtensibleClass) {
+                psiMethods = currentClass.ownMethods
+            }
+            if (psiMethods.isNotEmpty()) {
+                SelectSortModel(start, end, InsertType.ADD_BEFORE, psiMethods[0])
+            } else {
+                SelectSortModel(start, end, InsertType.ADD, null)
+            }
+        }
     }
 }
