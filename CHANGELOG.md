@@ -2,6 +2,10 @@
 
 # intellij-format-methods-plugin Changelog
 
+## [1.0.6] (2023/09/28)
+- Add plugin settings, now you can customize the sort by
+- 新增插件设置，你可以自定义排序依据了
+
 ## [1.0.5] (2023/06/25)
 - Clean up some excess code
 - Resolve the `com.intellij.serviceContainer.AlreadyDisposedException` caused

@@ -14,6 +14,9 @@ class AppSettingsConfigurable(project: Project) : BoundConfigurable(message("set
 
     override fun createPanel(): DialogPanel {
         return panel {
+            row{
+                label(message("note"))
+            }
             titledRow(message("group1")) {
                 row {
                     label(message("methodExample"))
@@ -48,6 +51,7 @@ class AppSettingsConfigurable(project: Project) : BoundConfigurable(message("set
                 row {
                     checkBox(
                         message("methodName"),
+                        comment = message("methodNameLabel")
                     ).withSelectedBinding(
                         PropertyBinding({ appSettingsState.methodName },
                             { value -> appSettingsState.methodName = value })
