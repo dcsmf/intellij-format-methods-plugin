@@ -1,7 +1,7 @@
-package com.github.dcsmf.intellijformatmethodsplugin.utils
+package com.github.dcsmf.plugin.formatmethods.utils
 
-import com.github.dcsmf.intellijformatmethodsplugin.model.InsertType
-import com.github.dcsmf.intellijformatmethodsplugin.model.SelectSortModel
+import com.github.dcsmf.plugin.formatmethods.model.InsertType
+import com.github.dcsmf.plugin.formatmethods.model.SelectSortModel
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.impl.source.PsiExtensibleClass

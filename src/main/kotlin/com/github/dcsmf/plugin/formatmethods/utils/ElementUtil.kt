@@ -1,4 +1,4 @@
-package com.github.dcsmf.intellijformatmethodsplugin.utils
+package com.github.dcsmf.plugin.formatmethods.utils
 
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement

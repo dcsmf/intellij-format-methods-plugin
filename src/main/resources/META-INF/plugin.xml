@@ -11,8 +11,16 @@
 
     <actions resource-bundle="messages.ActionsBundle">
         <action id="mf.plugin.format.pyramid.method.action"
-                class="com.github.dcsmf.intellijformatmethodsplugin.action.FormatMethodWithPyramidAction">
+                class="com.github.dcsmf.plugin.formatmethods.action.FormatMethodWithPyramidAction">
             <add-to-group group-id="CodeFormatGroup" anchor="last"/>
         </action>
     </actions>
+    <extensions defaultExtensionNs="com.intellij">
+        <projectConfigurable
+                id="mf.plugin.format.pyramid.method.setting"
+                key="settingName"
+                bundle="messages.SettingsTextBundle"
+                instance="com.github.dcsmf.plugin.formatmethods.settings.AppSettingsConfigurable"
+        />
+    </extensions>
 </idea-plugin>

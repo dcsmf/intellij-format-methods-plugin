@@ -1,4 +1,4 @@
-package com.github.dcsmf.intellijformatmethodsplugin.model
+package com.github.dcsmf.plugin.formatmethods.model
 
 import com.intellij.psi.PsiElement
 

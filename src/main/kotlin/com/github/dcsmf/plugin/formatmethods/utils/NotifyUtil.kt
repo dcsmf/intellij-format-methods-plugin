@@ -1,6 +1,6 @@
-package com.github.dcsmf.intellijformatmethodsplugin.utils
+package com.github.dcsmf.plugin.formatmethods.utils
 
-import com.github.dcsmf.intellijformatmethodsplugin.bundle.TextBundle
+import com.github.dcsmf.plugin.formatmethods.bundle.TextBundle
 import com.intellij.notification.Notification
 import com.intellij.notification.NotificationType
 import com.intellij.notification.Notifications

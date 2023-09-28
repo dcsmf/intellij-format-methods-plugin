@@ -1,12 +1,12 @@
-package com.github.dcsmf.intellijformatmethodsplugin.action
+package com.github.dcsmf.plugin.formatmethods.action
 
-import com.github.dcsmf.intellijformatmethodsplugin.bundle.TextBundle
-import com.github.dcsmf.intellijformatmethodsplugin.model.InsertType
-import com.github.dcsmf.intellijformatmethodsplugin.model.SelectSortModel
-import com.github.dcsmf.intellijformatmethodsplugin.utils.ElementUtil
-import com.github.dcsmf.intellijformatmethodsplugin.utils.MethodUtil.getJvmStyleSignature
-import com.github.dcsmf.intellijformatmethodsplugin.utils.NotifyUtil
-import com.github.dcsmf.intellijformatmethodsplugin.utils.SortUtil
+import com.github.dcsmf.plugin.formatmethods.bundle.TextBundle
+import com.github.dcsmf.plugin.formatmethods.model.InsertType
+import com.github.dcsmf.plugin.formatmethods.model.SelectSortModel
+import com.github.dcsmf.plugin.formatmethods.utils.ElementUtil
+import com.github.dcsmf.plugin.formatmethods.utils.MethodUtil.getJvmStyleSignature
+import com.github.dcsmf.plugin.formatmethods.utils.NotifyUtil
+import com.github.dcsmf.plugin.formatmethods.utils.SortUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
@@ -101,8 +101,8 @@ class FormatMethodWithPyramidAction : AnAction() {
             if (o1.isConstructor) {
                 return@sorted 1
             }
-            val s1 = getJvmStyleSignature(o1)
-            val s2 = getJvmStyleSignature(o2)
+            val s1 = getJvmStyleSignature(o1, project)
+            val s2 = getJvmStyleSignature(o2, project)
             s1.length.compareTo(s2.length)
         }.collect(Collectors.toList())
         if (SortUtil.isSameAfterSort(methods, sortedMethods)) {
