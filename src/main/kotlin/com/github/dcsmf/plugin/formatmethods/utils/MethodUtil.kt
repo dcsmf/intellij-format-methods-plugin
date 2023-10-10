@@ -2,6 +2,7 @@ package com.github.dcsmf.plugin.formatmethods.utils
 
 import com.github.dcsmf.plugin.formatmethods.settings.AppSettingsState
 import com.intellij.openapi.project.Project
+import com.intellij.psi.PsiKeyword
 import com.intellij.psi.PsiMethod
 
 object MethodUtil {
@@ -27,7 +28,8 @@ object MethodUtil {
 
         }
         val modifier = checkTrueThenConcat(
-            method.modifierList.text,
+            method.modifierList.children.filterIsInstance<PsiKeyword>()
+                .joinToString("") { it.text }/* Remove the impact of the annotation like @Override */,
             state.modifier
         )
         val typeParameter = checkTrueThenConcat(
@@ -49,6 +51,22 @@ object MethodUtil {
         }
         return modifier + typeParameter + returnType + methodName + throws
     }
+
+//    @JvmStatic
+//    fun getJvmStyleSignature(method: PsiMethod, project: Project): String {
+//        val returnTypeElementText = when (method.returnTypeElement) {
+//            null -> ""
+//            else -> method.returnTypeElement!!.text
+//        }
+//        val typeParameterListText = when (method.typeParameterList) {
+//            null -> ""
+//            else -> method.typeParameterList!!.text
+//
+//        }
+//        val s =
+//            method.modifierList.text + typeParameterListText + returnTypeElementText + method.name + method.parameterList.text + method.throwsList.text
+//        return s;
+//    }
 
     private fun checkTrueThenConcat(str: String, state: Boolean): String {
         if (state) {

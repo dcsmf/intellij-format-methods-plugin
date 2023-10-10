@@ -2,6 +2,10 @@
 
 # intellij-format-methods-plugin Changelog
 
+## [1.0.7] (2023/10/10)
+- Fixed the effect of the annotations like `@Override` on sorting
+- 修复了像`@Override`等注解对排序的影响
+
 ## [1.0.6] (2023/09/28)
 - Add plugin settings, now you can customize the sort by
 - 新增插件设置，你可以自定义排序依据了
