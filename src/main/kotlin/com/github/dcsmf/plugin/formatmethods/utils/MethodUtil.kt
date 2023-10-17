@@ -49,7 +49,7 @@ object MethodUtil {
         if (modifier.isEmpty() && typeParameter.isEmpty() && returnType.isEmpty() && parameters.isEmpty() && throws.isEmpty()) {
             methodName = method.name
         }
-        return modifier + typeParameter + returnType + methodName + throws
+        return modifier + typeParameter + returnType + methodName + parameters + throws
     }
 
 //    @JvmStatic

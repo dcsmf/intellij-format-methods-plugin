@@ -2,6 +2,10 @@
 
 # intellij-format-methods-plugin Changelog
 
+## [1.0.8] (2023/10/17)
+- Fixed an issue where parameter lists were ignored when getting function signatures
+- 修复获取函数签名时忽略了参数列表的问题
+
 ## [1.0.7] (2023/10/10)
 - Fixed the effect of the annotations like `@Override` on sorting
 - 修复了像`@Override`等注解对排序的影响
