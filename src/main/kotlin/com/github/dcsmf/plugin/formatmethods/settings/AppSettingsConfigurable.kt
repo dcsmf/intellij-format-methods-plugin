@@ -4,9 +4,9 @@ import com.github.dcsmf.plugin.formatmethods.bundle.SettingsTextBundle.message
 import com.intellij.openapi.options.BoundConfigurable
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogPanel
-import com.intellij.ui.layout.PropertyBinding
-import com.intellij.ui.layout.panel
-import com.intellij.ui.layout.withSelectedBinding
+import com.intellij.ui.dsl.builder.RightGap
+import com.intellij.ui.dsl.builder.bindSelected
+import com.intellij.ui.dsl.builder.panel
 
 class AppSettingsConfigurable(project: Project) : BoundConfigurable(message("settingName")) {
 
@@ -14,69 +14,60 @@ class AppSettingsConfigurable(project: Project) : BoundConfigurable(message("set
 
     override fun createPanel(): DialogPanel {
         return panel {
-            row{
-                label(message("note"))
-            }
-            titledRow(message("group1")) {
+            group(message("group1")) {
+                row {
+                    label(message("note"))
+                }
                 row {
                     label(message("methodExample"))
                 }
-                row {
-                    checkBox(
-                        message("modifier"),
-                        comment = message("modifierLabel")
-                    ).withSelectedBinding(
-                        PropertyBinding({ appSettingsState.modifier },
-                            { value -> appSettingsState.modifier = value })
-                    )
-                }
-                row {
-                    checkBox(
-                        message("genericTypeParameter"),
-                        comment = message("genericTypeParameterLabel")
-                    ).withSelectedBinding(
-                        PropertyBinding({ appSettingsState.typeParameter },
-                            { value -> appSettingsState.typeParameter = value })
-                    )
-                }
-                row {
-                    checkBox(
-                        message("returnType"),
-                        comment = message("returnTypeLabel")
-                    ).withSelectedBinding(
-                        PropertyBinding({ appSettingsState.returnType },
-                            { value -> appSettingsState.returnType = value })
-                    )
-                }
-                row {
-                    checkBox(
-                        message("methodName"),
-                        comment = message("methodNameLabel")
-                    ).withSelectedBinding(
-                        PropertyBinding({ appSettingsState.methodName },
-                            { value -> appSettingsState.methodName = value })
-                    )
-                }
-                row {
-                    checkBox(
-                        message("parameters"),
-                        comment = message("parametersLabel")
-                    ).withSelectedBinding(
-                        PropertyBinding({ appSettingsState.parameters },
-                            { value -> appSettingsState.parameters = value })
-                    )
-                }
-                row {
-                    checkBox(
-                        message("throws"),
-                        comment = message("throwsLabel")
-                    ).withSelectedBinding(
-                        PropertyBinding({ appSettingsState.throws },
-                            { value -> appSettingsState.throws = value })
-                    )
-                }
+                twoColumnsRow(
+                    {
+                        checkBox(message("modifier"))
+                            .comment(message("modifierLabel"))
+                            .bindSelected({ appSettingsState.modifier },
+                                { value -> appSettingsState.modifier = value })
+                            .gap(RightGap.COLUMNS)
+                    },
+                    {
+                        checkBox(message("genericTypeParameter"))
+                            .comment(message("genericTypeParameterLabel"))
+                            .bindSelected({ appSettingsState.typeParameter },
+                                { value -> appSettingsState.typeParameter = value })
+                    }
+                )
+                twoColumnsRow(
+                    {
+                        checkBox(message("returnType"))
+                            .comment(message("returnTypeLabel"))
+                            .bindSelected({ appSettingsState.returnType },
+                                { value -> appSettingsState.returnType = value })
+                            .gap(RightGap.COLUMNS)
+                    },
+                    {
+                        checkBox(message("methodName"))
+                            .comment(message("methodNameLabel"))
+                            .bindSelected({ appSettingsState.methodName },
+                                { value -> appSettingsState.methodName = value })
+                    }
+                )
+                twoColumnsRow(
+                    {
+                        checkBox(message("parameters"))
+                            .comment(message("parametersLabel"))
+                            .bindSelected({ appSettingsState.parameters },
+                                { value -> appSettingsState.parameters = value })
+                            .gap(RightGap.COLUMNS)
+                    },
+                    {
+                        checkBox(
+                            message("throws")
+                        ).comment(message("throwsLabel"))
+                            .bindSelected({ appSettingsState.throws },
+                                { value -> appSettingsState.throws = value })
+                    }
+                )
             }
         }
     }
-
 }

@@ -2,6 +2,12 @@
 
 # intellij-format-methods-plugin Changelog
 
+## [1.1.0] (2023/10/25)
+- Now minimum support *IDEA* version is 2021.3
+- The settings interface replaces the previous *Kotlin UI DSL Version 1* with *Kotlin UI DSL Version 2*
+- 更改最低支持*IDEA*版本为 2021.3
+- 设置页面使用*Kotlin UI DSL Version 2*替换之前的*Kotlin UI DSL Version 1*
+
 ## [1.0.8] (2023/10/17)
 - Fixed an issue where parameter lists were ignored when getting function signatures
 - 修复获取函数签名时忽略了参数列表的问题
