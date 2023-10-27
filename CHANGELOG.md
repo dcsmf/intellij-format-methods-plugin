@@ -2,6 +2,10 @@
 
 # intellij-format-methods-plugin Changelog
 
+## [1.1.1] (2023/10/27)
+- Fixed *IDEA* compatible error
+- 修复*IDEA*的兼容性错误
+
 ## [1.1.0] (2023/10/25)
 - Now minimum support *IDEA* version is 2021.3
 - The settings interface replaces the previous *Kotlin UI DSL Version 1* with *Kotlin UI DSL Version 2*
