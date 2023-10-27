@@ -27,7 +27,6 @@ class AppSettingsConfigurable(project: Project) : BoundConfigurable(message("set
                             .comment(message("modifierLabel"))
                             .bindSelected({ appSettingsState.modifier },
                                 { value -> appSettingsState.modifier = value })
-                            .gap(RightGap.COLUMNS)
                     },
                     {
                         checkBox(message("genericTypeParameter"))
@@ -42,7 +41,6 @@ class AppSettingsConfigurable(project: Project) : BoundConfigurable(message("set
                             .comment(message("returnTypeLabel"))
                             .bindSelected({ appSettingsState.returnType },
                                 { value -> appSettingsState.returnType = value })
-                            .gap(RightGap.COLUMNS)
                     },
                     {
                         checkBox(message("methodName"))
@@ -57,7 +55,6 @@ class AppSettingsConfigurable(project: Project) : BoundConfigurable(message("set
                             .comment(message("parametersLabel"))
                             .bindSelected({ appSettingsState.parameters },
                                 { value -> appSettingsState.parameters = value })
-                            .gap(RightGap.COLUMNS)
                     },
                     {
                         checkBox(
