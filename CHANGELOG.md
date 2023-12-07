@@ -6,7 +6,7 @@
 
 ## [2.0.0] (2023/12/07)
 - Now minimum support *IDEA* version is 2023.3
-- Now change JVM language level from 17 to 11
+- Now change JVM language level from 11 to 17
 - 更改最低支持*IDEA*版本为 2023.3
 - 现在编译的语言版本由11改为17
 
