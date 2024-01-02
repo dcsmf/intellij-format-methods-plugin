@@ -5,7 +5,6 @@ import com.github.dcsmf.plugin.formatmethods.model.SelectSortModel
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.impl.source.PsiExtensibleClass
-import org.apache.commons.lang.ArrayUtils
 
 object SortUtil {
     @JvmStatic
@@ -58,7 +57,7 @@ object SortUtil {
         // 还是没找到，范围扩充到查找该类所有方法
         // Still not found, the scope expands to find all methods of the class
         val methods = currentClass.allMethods
-        return if (ArrayUtils.isEmpty(methods)) {
+        return if (methods.isEmpty()) {
             SelectSortModel(start, end, InsertType.ADD, null)
         } else {
             var psiMethods = methods.toList()

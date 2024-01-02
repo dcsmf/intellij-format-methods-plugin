@@ -1,7 +1,7 @@
 package com.github.dcsmf.plugin.formatmethods.utils
 
 import com.github.dcsmf.plugin.formatmethods.settings.AppSettingsState
-import com.intellij.openapi.project.Project
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.psi.PsiKeyword
 import com.intellij.psi.PsiMethod
 
@@ -16,8 +16,8 @@ object MethodUtil {
      * default<T>voidmyMethod(String userId, @NotNull Group group, T t)throws Exception
      */
     @JvmStatic
-    fun getJvmStyleSignature(method: PsiMethod, project: Project): String {
-        val state: AppSettingsState = AppSettingsState.getInstance(project)
+    fun getJvmStyleSignature(method: PsiMethod): String {
+        val state: AppSettingsState = ApplicationManager.getApplication().getService(AppSettingsState().javaClass)
         val returnTypeElementText = when (method.returnTypeElement) {
             null -> ""
             else -> method.returnTypeElement!!.text

@@ -7,6 +7,7 @@ import com.github.dcsmf.plugin.formatmethods.utils.ElementUtil
 import com.github.dcsmf.plugin.formatmethods.utils.MethodUtil.getJvmStyleSignature
 import com.github.dcsmf.plugin.formatmethods.utils.NotifyUtil
 import com.github.dcsmf.plugin.formatmethods.utils.SortUtil
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
@@ -16,11 +17,13 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.PsiExtensibleClass
 import com.intellij.util.containers.stream
-import org.apache.commons.lang.StringUtils
 import java.util.*
 import java.util.stream.Collectors
 
 class FormatMethodWithPyramidAction : AnAction() {
+    override fun getActionUpdateThread(): ActionUpdateThread {
+        return ActionUpdateThread.BGT
+    }
 
     override fun update(e: AnActionEvent) {
         // 没有打开编辑器的时候禁用按钮
@@ -58,7 +61,7 @@ class FormatMethodWithPyramidAction : AnAction() {
         // Check whether some areas are selected
         val selectionModel = editor.selectionModel
         try {
-            if (StringUtils.isBlank(selectionModel.selectedText)) {
+            if (selectionModel.selectedText.isNullOrBlank()) {
                 // 全部格式化
                 // Sort all
                 sortAllClasses(project, editor)
@@ -101,8 +104,8 @@ class FormatMethodWithPyramidAction : AnAction() {
             if (o1.isConstructor) {
                 return@sorted 1
             }
-            val s1 = getJvmStyleSignature(o1, project)
-            val s2 = getJvmStyleSignature(o2, project)
+            val s1 = getJvmStyleSignature(o1)
+            val s2 = getJvmStyleSignature(o2)
             s1.length.compareTo(s2.length)
         }.collect(Collectors.toList())
         if (SortUtil.isSameAfterSort(methods, sortedMethods)) {

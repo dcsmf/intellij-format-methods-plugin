@@ -4,7 +4,6 @@ import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
-import com.intellij.openapi.project.Project
 import com.intellij.util.xmlb.XmlSerializerUtil
 
 @Service
@@ -42,11 +41,6 @@ class AppSettingsState : PersistentStateComponent<AppSettingsState> {
      * 异常抛出，如 throws Exception
      */
     var throws: Boolean = true
-
-    companion object {
-        @JvmStatic
-        fun getInstance(project: Project): AppSettingsState = project.getService(AppSettingsState::class.java)
-    }
 
     override fun getState(): AppSettingsState = this
 
