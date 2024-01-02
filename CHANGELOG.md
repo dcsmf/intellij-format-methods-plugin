@@ -2,7 +2,9 @@
 
 # intellij-format-methods-plugin Changelog
 
-## [Unreleased]
+## [2.0.1] (2024/01/02)
+- Fix some bugs
+- 修复了一些问题
 
 ## [2.0.0] (2023/12/07)
 - Now minimum support *IDEA* version is 2023.3
@@ -63,7 +65,6 @@
 - Methods sort feature finished
 - 函数排序功能完成
 
-[Unreleased]: https://github.com/dcsmf/intellij-format-methods-plugin/compare/v1.1.1...HEAD
 [1.1.1]: https://github.com/dcsmf/intellij-format-methods-plugin/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/dcsmf/intellij-format-methods-plugin/compare/v1.0.8...v1.1.0
 [1.0.8]: https://github.com/dcsmf/intellij-format-methods-plugin/compare/v1.0.7...v1.0.8

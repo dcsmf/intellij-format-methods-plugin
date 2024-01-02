@@ -1,15 +1,15 @@
 package com.github.dcsmf.plugin.formatmethods.settings
 
 import com.github.dcsmf.plugin.formatmethods.bundle.SettingsTextBundle.message
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.options.BoundConfigurable
-import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.ui.dsl.builder.bindSelected
 import com.intellij.ui.dsl.builder.panel
 
-class AppSettingsConfigurable(project: Project) : BoundConfigurable(message("settingName")) {
+class AppSettingsConfigurable : BoundConfigurable(message("settingName")) {
 
-    private val appSettingsState: AppSettingsState = AppSettingsState.getInstance(project)
+    private val appSettingsState: AppSettingsState = ApplicationManager.getApplication().getService(AppSettingsState().javaClass)
 
     override fun createPanel(): DialogPanel {
         return panel {
