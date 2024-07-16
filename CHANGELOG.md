@@ -2,11 +2,20 @@
 
 # intellij-format-methods-plugin Changelog
 
+## [Unreleased]
+
+## [2.0.2] (2024/07/16)
+
+- The access modifiers and other modifiers have been separated, and now they can each be sorted independently
+- 分离了访问修饰符和其他修饰符，现在可以各自进行单独的排序
+
 ## [2.0.1] (2024/01/02)
+
 - Fix some bugs
 - 修复了一些问题
 
 ## [2.0.0] (2023/12/07)
+
 - Now minimum support *IDEA* version is 2023.3
 - Now change JVM language level from 11 to 17
 - 更改最低支持*IDEA*版本为 2023.3
@@ -65,6 +74,9 @@
 - Methods sort feature finished
 - 函数排序功能完成
 
+[Unreleased]: https://github.com/dcsmf/intellij-format-methods-plugin/compare/v2.0.1...HEAD
+[2.0.1]: https://github.com/dcsmf/intellij-format-methods-plugin/compare/v2.0.0...v2.0.1
+[2.0.0]: https://github.com/dcsmf/intellij-format-methods-plugin/compare/v1.1.1...v2.0.0
 [1.1.1]: https://github.com/dcsmf/intellij-format-methods-plugin/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/dcsmf/intellij-format-methods-plugin/compare/v1.0.8...v1.1.0
 [1.0.8]: https://github.com/dcsmf/intellij-format-methods-plugin/compare/v1.0.7...v1.0.8
