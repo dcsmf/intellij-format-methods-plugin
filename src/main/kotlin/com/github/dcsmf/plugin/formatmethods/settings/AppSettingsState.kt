@@ -13,9 +13,14 @@ import com.intellij.util.xmlb.XmlSerializerUtil
 )
 class AppSettingsState : PersistentStateComponent<AppSettingsState> {
     /**
-     * 标识符，如public
+     * 访问修饰符，如public
      */
-    var modifier: Boolean = true
+    var accessModifier: Boolean = true
+
+    /**
+     * 其他修饰符，如synchronized
+     */
+    var otherModifier: Boolean = true
 
     /**
      * 泛型参数，如<T>

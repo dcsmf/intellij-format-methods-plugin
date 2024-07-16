@@ -9,7 +9,8 @@ import com.intellij.ui.dsl.builder.panel
 
 class AppSettingsConfigurable : BoundConfigurable(message("settingName")) {
 
-    private val appSettingsState: AppSettingsState = ApplicationManager.getApplication().getService(AppSettingsState().javaClass)
+    private val appSettingsState: AppSettingsState =
+        ApplicationManager.getApplication().getService(AppSettingsState().javaClass)
 
     override fun createPanel(): DialogPanel {
         return panel {
@@ -20,12 +21,18 @@ class AppSettingsConfigurable : BoundConfigurable(message("settingName")) {
                 row {
                     label(message("methodExample"))
                 }
-                twoColumnsRow(
+                threeColumnsRow(
                     {
-                        checkBox(message("modifier"))
-                            .comment(message("modifierLabel"))
-                            .bindSelected({ appSettingsState.modifier },
-                                { value -> appSettingsState.modifier = value })
+                        checkBox(message("accessModifier"))
+                            .comment(message("accessModifierLabel"))
+                            .bindSelected({ appSettingsState.accessModifier },
+                                { value -> appSettingsState.accessModifier = value })
+                    },
+                    {
+                        checkBox(message("otherModifier"))
+                            .comment(message("otherModifierLabel"))
+                            .bindSelected({ appSettingsState.otherModifier },
+                                { value -> appSettingsState.otherModifier = value })
                     },
                     {
                         checkBox(message("genericTypeParameter"))
