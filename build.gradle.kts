@@ -8,6 +8,11 @@ fun environment(key: String) = providers.environmentVariable(key)
 fun dateValue(pattern: String): String =
     LocalDate.now(ZoneId.of("Asia/Shanghai")).format(DateTimeFormatter.ofPattern(pattern))
 
+val buildMetadataPart: Provider<String> = properties("pluginBuildMetadata")
+    .map { part -> part.takeIf(String::isNotBlank)?.let { "+$it" } ?: "" }
+val pluginVersion: Provider<String> = properties("pluginVersion")
+val fullPluginVersion: Provider<String> = pluginVersion.zip(buildMetadataPart, String::plus)
+
 plugins {
     id("java") // Java support
     alias(libs.plugins.kotlin) // Kotlin support
@@ -16,7 +21,7 @@ plugins {
 }
 
 group = properties("pluginGroup").get()
-version = properties("pluginVersion").get()
+version = fullPluginVersion.get()
 
 // Configure project's dependencies
 repositories {
@@ -53,7 +58,7 @@ tasks {
     }
 
     patchPluginXml {
-        version = properties("pluginVersion")
+        version = fullPluginVersion
         sinceBuild = properties("pluginSinceBuild")
         untilBuild = properties("pluginUntilBuild")
         pluginDescription.set(projectDir.resolve("DESCRIPTION.md").readText())
