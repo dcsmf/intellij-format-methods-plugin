@@ -7,7 +7,6 @@ import com.github.dcsmf.plugin.formatmethods.utils.ElementUtil
 import com.github.dcsmf.plugin.formatmethods.utils.MethodUtil.getJvmStyleSignature
 import com.github.dcsmf.plugin.formatmethods.utils.NotifyUtil
 import com.github.dcsmf.plugin.formatmethods.utils.SortUtil
-import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
@@ -21,9 +20,6 @@ import java.util.*
 import java.util.stream.Collectors
 
 class FormatMethodWithPyramidAction : AnAction() {
-    override fun getActionUpdateThread(): ActionUpdateThread {
-        return ActionUpdateThread.BGT
-    }
 
     override fun update(e: AnActionEvent) {
         // 没有打开编辑器的时候禁用按钮
