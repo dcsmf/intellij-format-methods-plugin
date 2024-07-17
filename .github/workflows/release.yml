@@ -113,3 +113,13 @@ jobs:
             --body "Current pull request contains patched \`CHANGELOG.md\` file for the \`$VERSION\` version." \
             --label "$LABEL" \
             --head $BRANCH
+
+      # Delete the release if the version has build metadata
+      - name: Delete Release
+        if: steps.properties.outputs.pluginBuildMetadata != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api repos/{owner}/{repo}/releases \
+            --jq ".[] | select(.tag_name == \"${{ github.event.release.tag_name }}\") | .id" \
+            | xargs -I '{}' gh api -X DELETE repos/{owner}/{repo}/releases/{}
