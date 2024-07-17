@@ -174,7 +174,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          BRANCH="${{ github.ref_name }}"
           gh release create v${{ needs.build.outputs.version }} \
+            --target "$BRANCH" \
             --draft \
             --title "v${{ needs.build.outputs.version }}" \
             --notes "$(cat << 'EOM'
